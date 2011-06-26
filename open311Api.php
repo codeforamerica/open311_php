@@ -1,16 +1,14 @@
 <?php
 
 class open311Api extends APIBaseClass{
-	// worldBankApi does not use /need API key.
-	
-	// will need to define what API URL or 'city' in construct method
-	// https://open311.sfgov.org/dev/V2/
+
 	public static $api_url = 'https://open311.sfgov.org/dev/V2/';
 	
 	public static $api_key = '';
 	
 	// if this is not set you must enter in jurisdiction ID's for all methods
 	public static $jurisdiction_id = 'sfgov.org';
+
 	public function __construct($url=NULL)
 	{
 		parent::new_request(($url?$url:self::$api_url));
