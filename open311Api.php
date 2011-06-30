@@ -2,8 +2,8 @@
 
 class open311Api extends APIBaseClass{
 
-	public static $api_url = 'https://open311.sfgov.org/dev/V2/';
-	
+	public static $api_url = 'https://open311.sfgov.org/dev/v2';
+	// enter your key here (needed for the post stuff)
 	public static $api_key = '';
 	
 	// if this is not set you must enter in jurisdiction ID's for all methods
@@ -15,6 +15,7 @@ class open311Api extends APIBaseClass{
 	}
 	
 	public function get_service_list($jurisdiction_id=NULL,$format='xml'){
+	
 	/*	GET Service List
 		    Purpose: provide a list of acceptable 311 service request types and their associated service codes. These request types can be unique to the city/jurisdiction.
 		    URL: https://[API endpoint]/services.[format]
@@ -42,16 +43,18 @@ class open311Api extends APIBaseClass{
 		    group			Parent: service		A category to group this service type within. This provides a way to group several service request types under one category such as "sanitation" 
 
 	*/
+	// https://open311.sfgov.org/dev/V1/service_list?api_key=xyz&city_id=sfgov.org
+	// https://open311.sfgov.org/dev/v2/services.xml?jurisdiction_id=sfgov.org
 	
-		return $this->_request($path."/services.$format?jurisdiction_id=". self::default_jurisdiction($jurisdiction_id), 'get' ,$data) ;
+		return $this->_request("/services.$format?jurisdiction_id=". self::default_jurisdiction($jurisdiction_id), 'GET') ;
 	}
 	
-	private function default_jurisdiction($id){
+	public function default_jurisdiction($id){
 	// helper to automatically set jurisdiction if it is not provided in method calls.
-			return ($id == NULL && self::$jurisdiction?self::$jurisdiction:($id!=NULL?$id:false));
+			return ($id == NULL && self::$jurisdiction_id?self::$jurisdiction_id:($id!=NULL?$id:false));
 	}
 	
-	public function get_service_definition($service_code,$jurisdiction_id=null,$format='sml'){
+	public function get_service_definition($service_code,$jurisdiction_id=null,$format='xml'){
 	/*
 	
 	Conditional: Yes - This call is only necessary if the Service selected has metadata set as true from the GET Services response
@@ -63,10 +66,17 @@ class open311Api extends APIBaseClass{
     Requires API Key: No 
 	
 	*/
-		return $this->_request($path."/services/$service_code.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id), 'get' ,$data) ;
+	
+	// https://open311.sfgov.org/dev/v2/services/033.xml?jurisdiction_id=sfgov.org
+	// https://open311.sfgov.org/dev/V2/services/033.xml?jurisdiction_id=sfgov.org
+
+	echo(self::$api_url. "/services/$service_code.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id));
+		return $this->_request("/services/$service_code.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id), 'GET' ,$data) ;
 	}
 	
 	public function post_service_request($jurisdiction_id,$service_code,$options,$format='xml'){
+	
+	
 	/*POST Service Request
 	
 	 Purpose: Create service requests
@@ -103,7 +113,7 @@ class open311Api extends APIBaseClass{
 	// this method requires specific options, Processing exists to only process the required options, and to ignore others once the required option is found
 	// this option has to do with the address, which can take several parameters - address_String, address_id or both lat/long.	
 		$required_opt = array('lat','long','address_string','address_id');
-		$data['api_key'] = $this->$api_key;
+		$data['api_key'] = self::$api_key;
 		$data['jurisdiction_id'] = self::default_jurisdiction($jurisdiction_id);
 		
 		foreach($options as $key=>$value){
@@ -127,8 +137,9 @@ class open311Api extends APIBaseClass{
 			// we don't want to store extra option parameters we dont need (incase a developer gives us too many parameters)
 				$data[$key] = $value;
 		}
-
-	return $this->_request($path."/requests.$format", 'post' ,$data) ;
+	// returns this for testing purposes...	
+      return ("/request.$format" . print_r($data) . "\n Content-Type: application/x-www-form-urlencoded");
+	// return $this->_request($path."/requests.$format", 'POST' ,$data,'Content-Type: application/x-www-form-urlencoded') ;
 
 	}
 	
@@ -171,11 +182,11 @@ class open311Api extends APIBaseClass{
 		}
 		unset($service_opt);
 	}
-	
-	return $this->_request($path."/requests.$format", 'get' ,$data) ;
+	// get_service_requests
+	return $this->_request("/requests.$format", 'GET' ,$data) ;
 	}
 	
-	public function get_service_request($service_request_id,$jurisdiction_id,$format=NULL){
+	public function get_service_request($service_request_id,$jurisdiction_id=null,$format=NULL){
 	/* GET Service Request
 	
 	    Purpose: query the current status of an individual request
