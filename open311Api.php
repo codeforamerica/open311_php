@@ -61,7 +61,7 @@ class open311Api extends APIBaseClass{
 		    group			Parent: service		A category to group this service type within. This provides a way to group several service request types under one category such as "sanitation" 
 
 	*/
-		return $this->_request("/services.$format?jurisdiction_id=". self::default_jurisdiction($jurisdiction_id), 'GET', ($format='xml' ? self::$xml_header:self::$json_header)) ;
+		return $this->_request("/services.$format?jurisdiction_id=". self::default_jurisdiction($jurisdiction_id), 'GET', array($format='xml' ? self::$xml_header:self::$json_header)) ;
 	}
 	
 	public function default_jurisdiction($id){
@@ -81,7 +81,7 @@ class open311Api extends APIBaseClass{
 	    Requires API Key: No 
 		
 	*/
-		return $this->_request("/services/$service_code.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id), 'GET' ,$data,($format='xml' ? self::$xml_header:self::$json_header)) ;
+		return $this->_request("/services/$service_code.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id), 'GET' ,$data,array($format='xml' ? self::$xml_header:self::$json_header)) ;
 	}
 	
 	public function post_service_request($jurisdiction_id,$service_code,$options,$format='xml'){
@@ -190,7 +190,7 @@ class open311Api extends APIBaseClass{
 			}
 			unset($service_opt);
 		}
-		return $this->_request("/requests.$format", 'GET' ,$data, ($format='xml' ? self::$xml_header:self::$json_header)) ;
+		return $this->_request("/requests.$format", 'GET' ,$data, array($format='xml' ? self::$xml_header:self::$json_header)) ;
 	}
 	
 	public function get_service_request($service_request_id,$jurisdiction_id=null,$format=NULL){
@@ -228,6 +228,6 @@ class open311Api extends APIBaseClass{
 
 	
 	*/
-		return $this->_request($path."/requests/$service_request_id.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id), 'GET',($format='xml' ? self::$xml_header:self::$json_header));
+		return $this->_request($path."/requests/$service_request_id.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id), 'GET',array($format='xml' ? self::$xml_header:self::$json_header));
 	}
 }
