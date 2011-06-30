@@ -228,6 +228,6 @@ class open311Api extends APIBaseClass{
 
 	
 	*/
-		return $this->_request($path."/requests/$service_request_id.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id), 'GET',($format='xml' ? self::$xml_header:self::$json_header) ;
+		return $this->_request($path."/requests/$service_request_id.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id), 'GET',($format='xml' ? self::$xml_header:self::$json_header));
 	}
 }
