@@ -16,7 +16,7 @@ echo $new->get_service_definition('033');
 
 echo $new->get_service_requests();
 
-echo $new->get_service_request('123456')
+echo $new->get_service_request('123456');
 
 // hard to test post
 
