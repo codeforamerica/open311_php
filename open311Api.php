@@ -8,6 +8,11 @@ class open311Api extends APIBaseClass{
 	
 	// if this is not set you must enter in jurisdiction ID's for all methods
 	public static $jurisdiction_id = 'sfgov.org';
+	
+	
+	public static $xml_header = 'Content-Type: text/xml; charset=utf-8';
+	
+	public static $json_header = 'JSON: Content-Type: application/json; charset=utf-8'; 
 
 	public function __construct($url=NULL)
 	{
@@ -46,7 +51,7 @@ class open311Api extends APIBaseClass{
 	// https://open311.sfgov.org/dev/V1/service_list?api_key=xyz&city_id=sfgov.org
 	// https://open311.sfgov.org/dev/v2/services.xml?jurisdiction_id=sfgov.org
 	
-		return $this->_request("/services.$format?jurisdiction_id=". self::default_jurisdiction($jurisdiction_id), 'GET') ;
+		return $this->_request("/services.$format?jurisdiction_id=". self::default_jurisdiction($jurisdiction_id), 'GET', ($format='xml' ? self::$xml_header:self::$json_header)) ;
 	}
 	
 	public function default_jurisdiction($id){
@@ -70,8 +75,8 @@ class open311Api extends APIBaseClass{
 	// https://open311.sfgov.org/dev/v2/services/033.xml?jurisdiction_id=sfgov.org
 	// https://open311.sfgov.org/dev/V2/services/033.xml?jurisdiction_id=sfgov.org
 
-	echo(self::$api_url. "/services/$service_code.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id));
-		return $this->_request("/services/$service_code.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id), 'GET' ,$data) ;
+//	echo(self::$api_url. "/services/$service_code.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id));
+		return $this->_request("/services/$service_code.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id), 'GET' ,$data,($format='xml' ? self::$xml_header:self::$json_header)) ;
 	}
 	
 	public function post_service_request($jurisdiction_id,$service_code,$options,$format='xml'){
@@ -183,7 +188,7 @@ class open311Api extends APIBaseClass{
 		unset($service_opt);
 	}
 	// get_service_requests
-	return $this->_request("/requests.$format", 'GET' ,$data) ;
+	return $this->_request("/requests.$format", 'GET' ,$data, ($format='xml' ? self::$xml_header:self::$json_header)) ;
 	}
 	
 	public function get_service_request($service_request_id,$jurisdiction_id=null,$format=NULL){
@@ -221,6 +226,6 @@ class open311Api extends APIBaseClass{
 
 	
 	*/
-		return $this->_request($path."/requests/$service_request_id.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id), 'get') ;
+		return $this->_request($path."/requests/$service_request_id.$format?jurisdiction_id=".self::default_jurisdiction($jurisdiction_id), 'GET',($format='xml' ? self::$xml_header:self::$json_header) ;
 	}
 	}
