@@ -153,7 +153,7 @@ class open311Api extends APIBaseClass{
 
 	}
 	
-	public function get_service_requests($jurisdiction_id,$options=NULL,$format='xml'){
+	public function get_service_requests($jurisdiction_id=NULL,$options=NULL,$format='xml'){
 	/*	GET Service Requests
 	
 	    Purpose: query the current status of multiple requests
