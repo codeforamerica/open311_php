@@ -13,6 +13,12 @@ class TestOfApiClass extends UnitTestCase {
     function testApiConstructs(){
     	$this->api = new self::$class_name();
     	$this->check_class_params('_http _root api_url');
+    	// could create something to dynamically test each method ?
+		$this->assertIsA($this->api->get_service_list(),'string');
+		$this->assertNotNull($this->api->get_service_list());
+		$this->assertNotNull($this->api->get_service_requests());
+		$this->assertIsA($this->api->get_service_requests(),'string');
+		
     }
 
     function check_class_params($params=NULL,$mode=TRUE){
@@ -39,4 +45,3 @@ class TestOfApiClass extends UnitTestCase {
     }
 }
 ?>
-
