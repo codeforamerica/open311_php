@@ -1,5 +1,14 @@
 <?php
-// load simple test library.. not required if simpletest is preinstalled.
+
+/* load simpletest library
+
+   downloadable using
+
+wget http://downloads.sourceforge.net/project/simpletest/simpletest/simpletest_1.1/simpletest_1.1alpha3.tar.gz;
+tar -zxf simpletest_1.1alpha3.tar.gz;
+
+*/
+
 require_once('simpletest/autorun.php');
 // load baseclass 
 require_once('APIBaseClass.php');
