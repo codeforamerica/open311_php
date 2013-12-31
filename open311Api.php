@@ -11,7 +11,7 @@ class open311Api extends APIBaseClass{
 	
 	// this is boston API
 	
-	//public static $api_url = 'https://mayors24.cityofboston.gov:6443/api/open311/v2';
+	//public static $api_url = 'https://mayors24.cityofboston.gov/open311/v2'';
 	//public static $jurisdiction_id = 'cityofboston.gov';
 	
 	// this is dc API (404 not found) NOT WORKING
